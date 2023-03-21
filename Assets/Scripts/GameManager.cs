@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text txtPlayerScoreR;
 
     public static GameManager instance;
+    [SerializeField] private Canvas pauseCanvas;
+    private bool isPause;
     public void Awake()
     {
         if(instance == null)
@@ -35,12 +37,12 @@ public class GameManager : MonoBehaviour
 
     public void ScoreCheck()
     {
-        if (PlayerScoreL == 20)
+        if (PlayerScoreL == 10)
         {
             Debug.Log("Pemain kiri menang");
             this.gameObject.SendMessage("ChangeScene", "MainMenu");
         }
-        else if (PlayerScoreR == 20)
+        else if (PlayerScoreR == 10)
         {
             Debug.Log("Pemain kanan menang");
             this.gameObject.SendMessage("ChangeScene", "MainMenu");
@@ -64,6 +66,34 @@ public class GameManager : MonoBehaviour
             ScoreCheck();
         }
     }
+
+    public void PauseGame()
+    {
+        if(isPause == false)
+        {
+            isPause = true;
+            pauseCanvas.gameObject.SetActive(true);
+            Time.timeScale = 0;
+        }
+    }
+
+    public void ResumeGame()
+    {
+        if (isPause == true)
+        {
+            isPause = false;
+            pauseCanvas.gameObject.SetActive(false);
+            Time.timeScale = 1;
+        }
+    }
+    
+    public void RestartGame()
+    {
+        GetComponent<SceneManagement>().ChangeScene("Game");
+        Time.timeScale = 1;
+    }
+
+
 }
 
 

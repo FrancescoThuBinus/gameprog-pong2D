@@ -5,9 +5,11 @@ using UnityEngine;
 public class BallControl : MonoBehaviour
 {
     public AudioSource HitSound;
+    public ParticleSystem collisionParticle;
     private Rigidbody2D rb2d;
     public float ballForceX = 30;
     public float ballForceY = -15;
+    [SerializeField] private CameraShake cameraShake;
     void Start()
     {
         HitSound = GetComponent<AudioSource>();
@@ -45,13 +47,30 @@ public class BallControl : MonoBehaviour
         if (coll.collider.CompareTag("Player")) //jika hit player
             
         {
-            Debug.Log("ballcontrol");
+            cameraShake.shouldShake = true;
+            Debug.Log(cameraShake.shouldShake);
             HitSound.Play();
             Vector2 vel;
             vel.x = rb2d.velocity.x;
             vel.y = (rb2d.velocity.y / 2) + (coll.collider.attachedRigidbody.velocity.y / 3);
             rb2d.velocity = vel;
+            EmitParticle(90);
         }
     }
 
+    void BugOut()
+    {
+        if(transform.position.y > 3.01)
+        {
+            GameManager.instance.RestartGame();
+        }
+        else if(transform.position.y <= -3.08){
+            GameManager.instance.RestartGame();
+        }
+    }
+
+    private void EmitParticle(int amount)
+    {
+        collisionParticle.Emit(amount);
+    }
 }
