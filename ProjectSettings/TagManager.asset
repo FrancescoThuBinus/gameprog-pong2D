@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Wall
+  - Ball
+  - RedBall
+  - GreenBall
+  - BlackBall
   layers:
   - Default
   - TransparentFX
@@ -11,8 +16,8 @@ TagManager:
   - PostProcessing
   - Water
   - UI
-  - 
-  - 
+  - Post Processing Menu
+  - Post Processing Green
   - 
   - 
   - 
