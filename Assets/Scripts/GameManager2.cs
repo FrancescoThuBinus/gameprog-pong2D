@@ -4,29 +4,29 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class GameManager2 : MonoBehaviour
 {
-    //Time.timeScale = 1;
     private int time = 2;
     
-    //[SerializeField] private Canvas WinCanvas;
-    private IEnumerator WaitingTime(float seconds)
-    {
-            
-            yield return new WaitForSeconds(seconds);
+  //  [SerializeField] private Canvas WinCanvas;
+  //  private IEnumerator WaitingTime(float seconds)
+   // {
+  //      WinCanvas.gameObject.SetActive(true);
+    //    yield return new WaitForSeconds(seconds);
     
-            this.gameObject.SendMessage("ChangeScene", "PostGame");
+            //this.gameObject.SendMessage("ChangeScene", "MainMenu");
         
-    }
+  //  }
 
-    private IEnumerator WaitingTimeR(float seconds)
-    {
-        //WinRCanvas.gameObject.SetActive(true);
-        yield return new WaitForSeconds(seconds);
+   // [SerializeField] private Canvas WinRCanvas;
+   // private IEnumerator WaitingTimeR(float seconds)
+  //  {
+     //   WinRCanvas.gameObject.SetActive(true);
+       // yield return new WaitForSeconds(seconds);
 
-        this.gameObject.SendMessage("ChangeScene", "PostGame1");
+        //this.gameObject.SendMessage("ChangeScene", "MainMenu");
 
-    }
+   // }
 
 
     public int PlayerScoreL = 0;
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public Text txtPlayerScoreL;
     public Text txtPlayerScoreR;
 
-    public static GameManager instance;
+    public static GameManager2 instance;
     [SerializeField] private Canvas pauseCanvas;
     private bool isPause;
     public void Awake()
@@ -52,24 +52,25 @@ public class GameManager : MonoBehaviour
 
     void Start() //isi nilai playerscore ke ui
     {
-        txtPlayerScoreL.text = PlayerScoreL.ToString();
-        txtPlayerScoreR.text = PlayerScoreR.ToString();
+        //txtPlayerScoreL.text = PlayerScoreL.ToString();
+        //txtPlayerScoreR.text = PlayerScoreR.ToString();
     }
 
 
 
     public void ScoreCheck()
     {
-        if (PlayerScoreL == 10)
+        if (PlayerScoreL == 1)
         {
-            StartCoroutine(WaitingTime(time));
+           // StartCoroutine(WaitingTime(time));
 
             Debug.Log("Pemain kiri menang");
             //this.gameObject.SendMessage("ChangeScene", "MainMenu");
         }
-        else if (PlayerScoreR == 10)
+        else if (PlayerScoreR == 1)
         {
-            StartCoroutine(WaitingTimeR(time));
+           // StartCoroutine(WaitingTimeR(time));
+
             Debug.Log("Pemain kanan menang");
             //this.gameObject.SendMessage("ChangeScene", "MainMenu");
         }
@@ -123,16 +124,10 @@ public class GameManager : MonoBehaviour
     {
 
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (isPause)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            //this.gameObject.SendMessage("ChangeScene", "MainMenu");
+            GetComponent<SceneManagement>().ChangeScene("MainMenu");
         }
 
     }
