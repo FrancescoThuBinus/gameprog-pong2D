@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class BallControl : MonoBehaviour
 {
@@ -15,11 +17,16 @@ public class BallControl : MonoBehaviour
         ReverseCanvas.gameObject.SetActive(false);
     }
 
+    public GameObject ReverseTimeCanvas;
+    public GameObject QuakeCanvas;
+
+    
     public PlayerControls[] player;
     public AudioSource HitSound;
     public AudioSource BlackSoundSource;
     public AudioSource GreenSoundSource;
     public AudioSource RedSoundSource;
+    public AudioSource QuakeSoundSource;
     public ParticleSystem collisionParticle;
     private Rigidbody2D rb2d;
     public float ballForceX = 30;
@@ -34,6 +41,8 @@ public class BallControl : MonoBehaviour
 
     void GoBall()
     {
+        GameObject MiddleRecycle = GameObject.Find("Middle Line");
+        Destroy(MiddleRecycle);
         float rand = Random.Range(0, 2); //random nilai
         if (rand < 1)
         {
@@ -66,8 +75,14 @@ public class BallControl : MonoBehaviour
             
             HitSound.Play();
             Vector2 vel;
-            vel.x = rb2d.velocity.x +3f;
+            vel.x = rb2d.velocity.x + 3f;
             vel.y = (rb2d.velocity.y) + (coll.collider.attachedRigidbody.velocity.y / 3);
+
+            while (Mathf.Abs(vel.x) < 10f)
+            {
+                vel.x += 20;
+            }
+
             rb2d.velocity = vel;
             EmitParticle(90);
         }
@@ -89,54 +104,109 @@ public class BallControl : MonoBehaviour
 
     }
 
-    
 
 
-
+    public GameObject RacketL;
+    public GameObject RacketR;
+    public Text txtReverseCountDown;
     void OnTriggerEnter2D(Collider2D coll)
     {
         if (coll.gameObject.CompareTag("RedBall"))
         {
+
+            StartCoroutine(QuakeTime(1.1f));
             //RedSound.Play();
             RedSoundSource.Play();
+            QuakeSoundSource.Play();
             cameraShake.shouldShake = true;
             //coll.gameObject.GetComponent<PowerBall>().ScreenShake();
             Destroy(coll.gameObject, 0.2f);
+
+            QuakeCanvas.SetActive(true);
+
+            IEnumerator QuakeTime(float quakeWaitTime)
+            {
+                yield return new WaitForSeconds(quakeWaitTime);
+                QuakeSoundSource.Stop();
+                QuakeCanvas.SetActive(false);
+            }
+
+
         }
+
+        float originalSpeed = player[0].speed;
+
 
         if (coll.gameObject.CompareTag("GreenBall"))
         {
-            //GreenSound.Play();
+            SpriteRenderer RacketLChange = RacketL.GetComponent<SpriteRenderer>();
+            SpriteRenderer RacketRChange = RacketR.GetComponent<SpriteRenderer>();
+
+            StartCoroutine(ChangeColorL(RacketL.GetComponent<SpriteRenderer>(), Color.green, 3f));
+            StartCoroutine(ChangeColorR(RacketR.GetComponent<SpriteRenderer>(), Color.green, 3f));
             StartCoroutine(WaitingTime(time));
+            StartCoroutine(CountdownCoroutine());
+            StartCoroutine(RevertPlayerSpeed(originalSpeed, 3.0f));
             GreenSoundSource.Play();
-            //Panel .gameObject.SetActive(true);
+            
             player[0].speed *= -1;
             player[1].speed *= -1;
+            ReverseTimeCanvas.SetActive(true);
+
+            IEnumerator ChangeColorL(SpriteRenderer RacketLChange, Color newColorL, float seconds)
+            {
+
+                Color originalColorL = RacketLChange.color;
+
+                RacketLChange.color = newColorL;
+                yield return new WaitForSeconds(seconds);
+
+                RacketLChange.color = originalColorL;
+            }
+
+            IEnumerator ChangeColorR(SpriteRenderer RacketRChange, Color newColorR, float seconds)
+            {
+
+                Color originalColorR = RacketRChange.color;
+
+                RacketRChange.color = newColorR;
+                yield return new WaitForSeconds(seconds);
+
+                RacketRChange.color = originalColorR;
+            }
+
+            IEnumerator CountdownCoroutine()
+            {
+                int count = 3;
+                while (count > 0)
+                {
+                    txtReverseCountDown.text = count.ToString();
+                    yield return new WaitForSeconds(1.0f);
+                    count--;
+                }
+                txtReverseCountDown.text = "0";
+                //ReverseTimeCanvas.SetActive(false);
+            }
+
+
+            IEnumerator RevertPlayerSpeed(float originalSpeed, float waitTime)
+            {
+                yield return new WaitForSeconds(waitTime);
+                player[0].speed = originalSpeed;
+                player[1].speed = originalSpeed;
+                ReverseTimeCanvas.SetActive(false);
+            }
+
             Destroy(coll.gameObject, 0.2f);
-            //coll.gameObject.GetComponent<PowerBall>().ReverseInput();
+            
 
         }
 
 
 
 
-    }
+    } //TUTUP VOID ONTRIGGERENTER2D
 
-
-
-
-    void BugOut()
-    {
-        if(transform.position.y > 3.01)
-        {
-            Debug.Log("keluar");
-            GameManager.instance.RestartGame();
-        }
-        else if(transform.position.y <= -3.08){
-            GameManager.instance.RestartGame();
-            Debug.Log("keluar");
-        }
-    }
 
     private void EmitParticle(int amount)
     {

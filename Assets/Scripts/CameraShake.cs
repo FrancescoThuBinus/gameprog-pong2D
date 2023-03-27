@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class CameraShake : MonoBehaviour
 {
-    
+
+    Camera cameraNew;
 
     public float power = 0.7f;
-    public float duration = 1.0f;
-    public Transform camera;
+    public float duration = 0.7f;
+    public Transform cameraMain;
     public float slowDownAmount = 1.0f;
     public bool shouldShake = false;
 
@@ -17,8 +18,9 @@ public class CameraShake : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        camera = Camera.main.transform;
-        startPosition = camera.localPosition;
+        cameraNew = GetComponent<Camera>();
+        cameraMain = Camera.main.transform;
+        startPosition = cameraMain.localPosition;
         initialDuration = duration;
     }
 
@@ -33,14 +35,14 @@ public class CameraShake : MonoBehaviour
         {
             if (duration > 0)
             {
-                camera.localPosition = startPosition + Random.insideUnitSphere * power;
+                GetComponent<Camera>().transform.localPosition = startPosition + Random.insideUnitSphere * power;
                 duration -= Time.deltaTime * slowDownAmount;
             }
             else
             {
                 shouldShake = false;
                 duration = initialDuration;
-                camera.localPosition = startPosition;
+                GetComponent<Camera>().transform.localPosition = startPosition;
             }
         }
     }

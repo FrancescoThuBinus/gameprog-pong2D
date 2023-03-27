@@ -6,16 +6,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    //Time.timeScale = 1;
-    private int time = 2;
     
-    //[SerializeField] private Canvas WinCanvas;
+    private int waitingTime = 1;
+    
+    
     private IEnumerator WaitingTime(float seconds)
     {
             
             yield return new WaitForSeconds(seconds);
     
-            this.gameObject.SendMessage("ChangeScene", "PostGame");
+            this.gameObject.SendMessage("ChangeScene", "LeftPostGame");
         
     }
 
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
         //WinRCanvas.gameObject.SetActive(true);
         yield return new WaitForSeconds(seconds);
 
-        this.gameObject.SendMessage("ChangeScene", "PostGame1");
+        this.gameObject.SendMessage("ChangeScene", "RightPostGame");
 
     }
 
@@ -62,16 +62,16 @@ public class GameManager : MonoBehaviour
     {
         if (PlayerScoreL == 10)
         {
-            StartCoroutine(WaitingTime(time));
+            StartCoroutine(WaitingTime(waitingTime));
 
             Debug.Log("Pemain kiri menang");
-            //this.gameObject.SendMessage("ChangeScene", "MainMenu");
+            
         }
         else if (PlayerScoreR == 10)
         {
-            StartCoroutine(WaitingTimeR(time));
+            StartCoroutine(WaitingTimeR(waitingTime));
             Debug.Log("Pemain kanan menang");
-            //this.gameObject.SendMessage("ChangeScene", "MainMenu");
+            
         }
     }
 
