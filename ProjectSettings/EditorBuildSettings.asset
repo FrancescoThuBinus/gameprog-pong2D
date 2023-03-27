@@ -12,10 +12,10 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 9edfb9932a5e78249ac933bfcdb5c8d3
   - enabled: 1
-    path: Assets/Scenes/PostGame.unity
+    path: Assets/Scenes/LeftPostGame.unity
     guid: f8b78f3a9c8305e4ea4849a6972a132a
   - enabled: 1
-    path: Assets/Scenes/PostGame1.unity
+    path: Assets/Scenes/RightPostGame.unity
     guid: dfc319152c52c97439fc593ca43afe77
   - enabled: 1
     path: Assets/Scenes/Credit.unity
