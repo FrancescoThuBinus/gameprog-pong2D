@@ -9,6 +9,7 @@ TagManager:
   - RedBall
   - GreenBall
   - BlackBall
+  - ScoreColor
   layers:
   - Default
   - TransparentFX
