@@ -2,11 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+
+    //skinselector
+    public GameObject[] skinPrefabs;
     
+
+
+
     private int waitingTime = 1;
     
     
@@ -14,9 +21,23 @@ public class GameManager : MonoBehaviour
     {
             
             yield return new WaitForSeconds(seconds);
-    
+            
+            if(SceneManager.GetActiveScene().buildIndex == 4)
+        {
             this.gameObject.SendMessage("ChangeScene", "LeftPostGame");
-        
+        }
+
+
+            if (SceneManager.GetActiveScene().buildIndex == 5)
+        {
+            this.gameObject.SendMessage("ChangeScene", "AILeftPost");
+        }
+
+            if (SceneManager.GetActiveScene().buildIndex == 6)
+        {
+            this.gameObject.SendMessage("ChangeScene", "AILeftPost2");
+        }
+
     }
 
     private IEnumerator WaitingTimeR(float seconds)
@@ -24,8 +45,19 @@ public class GameManager : MonoBehaviour
         //WinRCanvas.gameObject.SetActive(true);
         yield return new WaitForSeconds(seconds);
 
-        this.gameObject.SendMessage("ChangeScene", "RightPostGame");
 
+        if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+           this.gameObject.SendMessage("ChangeScene", "RightPostGame");
+        }
+        if (SceneManager.GetActiveScene().buildIndex == 5)
+        {
+            this.gameObject.SendMessage("ChangeScene", "AIRightPost");
+        }
+        if (SceneManager.GetActiveScene().buildIndex == 6)
+        {
+            this.gameObject.SendMessage("ChangeScene", "AIRightPost2");
+        }
     }
 
 
@@ -54,6 +86,9 @@ public class GameManager : MonoBehaviour
     {
         txtPlayerScoreL.text = PlayerScoreL.ToString();
         txtPlayerScoreR.text = PlayerScoreR.ToString();
+
+        //int selectedSkin = PlayerPrefs.GetInt("selectedSkin");
+        //GameObject prefab = skinPrefabs[selectedSkin];
     }
 
 
@@ -115,8 +150,21 @@ public class GameManager : MonoBehaviour
     
     public void RestartGame()
     {
-        GetComponent<SceneManagement>().ChangeScene("Game");
-        Time.timeScale = 1;
+        
+        if (SceneManager.GetActiveScene().buildIndex == 4)
+        {
+            GetComponent<SceneManagement>().ChangeScene("Game");
+            
+        }
+        if (SceneManager.GetActiveScene().buildIndex == 5)
+        {
+            GetComponent<SceneManagement>().ChangeScene("SkinSelect1");
+        }
+        if (SceneManager.GetActiveScene().buildIndex == 6)
+        {
+            GetComponent<SceneManagement>().ChangeScene("SkinSelect2");
+        }   
+            Time.timeScale = 1;
     }
 
     void Update()

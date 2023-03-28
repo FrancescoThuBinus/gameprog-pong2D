@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerControls : MonoBehaviour
 {
+
     public KeyCode moveUp = KeyCode.W;
     public KeyCode moveDown = KeyCode.S;
     public float speed = 10f;
@@ -11,6 +12,7 @@ public class PlayerControls : MonoBehaviour
     private Rigidbody2D rb2d;
     void Start()
     {
+
         rb2d = GetComponent<Rigidbody2D>();
     }
 
