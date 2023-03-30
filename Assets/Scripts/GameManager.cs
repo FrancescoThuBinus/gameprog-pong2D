@@ -158,10 +158,12 @@ public class GameManager : MonoBehaviour
         }
         if (SceneManager.GetActiveScene().buildIndex == 5)
         {
+            Debug.Log("keganti");
             GetComponent<SceneManagement>().ChangeScene("SkinSelect1");
         }
         if (SceneManager.GetActiveScene().buildIndex == 6)
         {
+            Debug.Log("keganti");
             GetComponent<SceneManagement>().ChangeScene("SkinSelect2");
         }   
             Time.timeScale = 1;

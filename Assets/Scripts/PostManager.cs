@@ -12,19 +12,25 @@ public class PostManager: MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (SceneManager.GetActiveScene().buildIndex == 4)
+            if (SceneManager.GetActiveScene().buildIndex == 8)
             {
                 GetComponent<SceneManagement>().ChangeScene("Game");
 
             }
-            if (SceneManager.GetActiveScene().buildIndex == 5)
+            if (SceneManager.GetActiveScene().buildIndex == 9)
             {
-                GetComponent<SceneManagement>().ChangeScene("GameAI");
+                GetComponent<SceneManagement>().ChangeScene("Game");
 
             }
-            if (SceneManager.GetActiveScene().buildIndex == 6)
+
+            if (SceneManager.GetActiveScene().buildIndex == 10)
             {
-                GetComponent<SceneManagement>().ChangeScene("GameAI2");
+                GetComponent<SceneManagement>().ChangeScene("MapSelect");
+
+            }
+            if (SceneManager.GetActiveScene().buildIndex == 16)
+            {
+                GetComponent<SceneManagement>().ChangeScene("MapSelect");
 
             }
         }
